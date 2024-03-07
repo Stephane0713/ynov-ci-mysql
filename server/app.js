@@ -30,7 +30,7 @@ const getAllUsers = [
 
 const router = express.Router();
 
-router.route("/").getAllUsers();
+router.route("/").get(getAllUsers);
 
 const app = express();
 const port = process.env.PORT || 8000;

@@ -1,0 +1,4 @@
+**/build
+**/.dockerignore
+**/Dockerfile
+**/node_modules

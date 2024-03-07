@@ -13,10 +13,14 @@ function App() {
         const api = axios.create({
           baseURL: `http://localhost:${port}`,
         });
+        const res = await api.get("/users");
+        console.log(res);
+        setUserCount(res.data.users.length);
       } catch (e) {
         console.log(e);
       }
     }
+    countUsers();
   }, []);
 
   return (

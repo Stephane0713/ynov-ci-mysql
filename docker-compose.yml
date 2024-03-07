@@ -3,6 +3,9 @@ version: '3.1'
 services:
   db:
     image: migration_mysql
+    build: 
+      context: .
+      dockerfile: Dockerfile
     command: --default-authentication-plugin=mysql_native_password
     restart: always
     environment:
@@ -20,14 +23,36 @@ services:
 
   server:
     image: nodejs
-    build: ./server
+    volumes:
+      - ./server:/server
+      - /server/node_modules
+    build: 
+      context: ./server
+      dockerfile: Dockerfile
     ports:
       - 8000:8000
     environment:
       - MYSQL_HOST=db
+      - MYSQL_DATABASE
+      - MYSQL_USER
+      - MYSQL_ROOT_PASSWORD
       - PORT=8000
+    command: node app.js
     depends_on:
       - db
 
-volumes:
-  sql:
+  react:
+    image: react
+    build: 
+      context: ./app
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    environment:
+      - REACT_APP_SERVER_PORT=8000
+    volumes:
+      - ./app:/app
+      - /app/node_modules
+    depends_on:
+      - server
+    command: npm start
