@@ -1,7 +1,8 @@
-import logo from "./logo.svg";
 import "./App.css";
 import React from "react";
 import axios from "axios";
+import Form from "./components/Form";
+import { ToastProvider } from "./components/Toast";
 
 function App() {
   const port = process.env.REACT_APP_SERVER_PORT;
@@ -24,12 +25,16 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <ToastProvider>
       <header className="App-header">
         <h1>User manager</h1>
         <p>{userCount} user(s) registered</p>
       </header>
-    </div>
+
+      <div className="App">
+        <Form />
+      </div>
+    </ToastProvider>
   );
 }
 
